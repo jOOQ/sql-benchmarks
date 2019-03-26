@@ -16,3 +16,5 @@ The price can be very high when a lot of data is searched in a clustered index. 
 - SQL Server offers both and defaults to clustered indexes
 - Oracle offers both and defaults to heap tables
 - PostgreSQL offers both and defaults to heap tables
+
+The full article can be read here: https://blog.jooq.org/2019/03/26/the-cost-of-useless-surrogate-keys-in-relationship-tables/
