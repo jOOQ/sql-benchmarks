@@ -14,7 +14,7 @@ create table child_surrogate (
   payload_2 int, 
   primary key (id), 
   unique (parent_1_id, parent_2_id)
-) -- ENGINE = MyISAM /* uncomment this to use MyISAM (heap tables) */
+) -- ENGINE = MyISAM
 ;
 
 create table child_natural (
@@ -23,7 +23,7 @@ create table child_natural (
   payload_1 int, 
   payload_2 int, 
   primary key (parent_1_id, parent_2_id)
-) -- ENGINE = MyISAM /* uncomment this to use MyISAM (heap tables) */
+) -- ENGINE = MyISAM
 ;
 
 
@@ -46,28 +46,10 @@ select v
 from t;
 
 insert into child_surrogate (parent_1_id, parent_2_id, payload_1, payload_2)
-with recursive t as (
-  select 
-    1 v, 
-    (select count(*) from parent_1) parent_1_count,
-    (select count(*) from parent_2) parent_2_count
-  union all
-  select v + 1, parent_1_count, parent_2_count 
-  from t where v < parent_1_count * parent_2_count
-)
-select mod(v, parent_1_count), v / parent_1_count, 1, 1
-from t;
+select p1.id, p2.id, 1, 1
+from parent_1 as p1, parent_2 as p2;
 
 
 insert into child_natural (parent_1_id, parent_2_id, payload_1, payload_2)
-with recursive t as (
-  select 
-    1 v, 
-    (select count(*) from parent_1) parent_1_count,
-    (select count(*) from parent_2) parent_2_count
-  union all
-  select v + 1, parent_1_count, parent_2_count 
-  from t where v < parent_1_count * parent_2_count
-)
-select mod(v, parent_1_count), v / parent_1_count, 1, 1
-from t;
+select p1.id, p2.id, 1, 1
+from parent_1 as p1, parent_2 as p2;
